@@ -13,15 +13,18 @@ export class PostService {
 
 
     findAll(): Promise<PostEntity[]> {
-        Logger.log('lololol')
         return this.postRepository.find();
       }
 
     findById(id :number): Promise<PostEntity> {
-        return this.postRepository.findOne(id)
+        return this.postRepository.findOne(id);
+    }
+    findByUserId(id: number){
+        return this.postRepository.find({where:{createBy:id}})
     }
 
-    save(post:PostEntity): Promise<PostEntity>{
+    save(post:PostEntity,user): Promise<PostEntity>{
+        post.createBy = user;
         return this.postRepository.save(post)
     }
 
