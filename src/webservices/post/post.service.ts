@@ -1,4 +1,4 @@
-import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PostEntity } from './post.entity';
 import { Repository, DeleteResult } from 'typeorm';
@@ -13,6 +13,7 @@ export class PostService {
 
 
     findAll(): Promise<PostEntity[]> {
+        Logger.log('lololol')
         return this.postRepository.find();
       }
 
