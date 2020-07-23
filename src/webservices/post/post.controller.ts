@@ -1,17 +1,22 @@
 import { PostEntity } from './post.entity'
-import { Controller, Get, Param, Post, Body, Put, Delete } from '@nestjs/common';
+import { Controller, Get, Param, Post, Body, Put, Delete, UseGuards, Request } from '@nestjs/common';
 import { PostService } from './post.service';
+import { JwtAuthGuard } from 'src/core/auth/jwt-auth.guard';
 
 
 
+@UseGuards(JwtAuthGuard)
 @Controller('posts')
 export class PostController {
 
     constructor(private postService: PostService){}
-
     @Get()
-    getAll(){
+    getAll(){    
         return this.postService.findAll();
+    }
+    @Get('/mines')
+    getMyPost(@Request() req){   
+        return this.postService.findByUserId(req.user.id);
     }
 
     @Get('/:id')
@@ -19,9 +24,11 @@ export class PostController {
         return this.postService.findById(id);
     }
 
+   
+
     @Post()
-    save(@Body() post : PostEntity){
-        return this.postService.save(post);
+    save(@Body() post : PostEntity,@Request() req){   
+        return this.postService.save(post,req.user);
     }
 
     @Put('/:id')
@@ -32,7 +39,6 @@ export class PostController {
 
     @Delete('/:id')
     delete(@Param('id') id){
-        parseInt(id,10)
         return this.postService.delete(id);
     }
 }

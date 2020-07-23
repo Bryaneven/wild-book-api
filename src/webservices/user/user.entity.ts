@@ -1,6 +1,9 @@
 
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, ManyToMany, JoinTable, JoinColumn, OneToMany } from 'typeorm';
 import { PostEntity } from '../post/post.entity';
+import { Exclude } from 'class-transformer';
+import { IsEmail, IsNotEmpty } from 'class-validator';
+
 
 @Entity()
 export class User {
@@ -8,29 +11,34 @@ export class User {
   id: number;
 
   @Column()
-  firstName: string;
+  firstname: string;
 
   @Column()
-  lastName: string;
+  lastname: string;
 
-  @Column()
+  @IsEmail()
+  @Column({unique: true})
   email: string;
 
-  @Column()
+  @IsNotEmpty()
+  @Exclude()
+  @Column({select:false})
   password: string;
 
   @CreateDateColumn({name:'register_date'})
   
   registerDate: Date;
 
-  @Column({name:'picture_url'})
+  @Column({name:'picture_url',nullable:true})
   pictureUrl: string;
 
-  @OneToMany(type => PostEntity, post => post.createBy)
+  @OneToMany(type => PostEntity, post => post.createdBy)
   posts: PostEntity[];
 
-  @ManyToMany(type => User)
+  @ManyToMany(type => User, user => user.followers, {cascade: true})
   @JoinTable({name:'user_friends'})
-  friends: User[];
+  follows: User[];
 
+  @ManyToMany(type => User , user => user.follows)
+  followers: User[]
 }
