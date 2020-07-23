@@ -24,7 +24,10 @@ export class PostService {
         const result = await this.postRepository.find({ where: { createdBy: id } })
         return result 
     }
-
+    async findPostLikes(id){
+        const post = await this.postRepository.findOne(id,{relations:['likesList']})
+        return post.likesList
+    }
   
 
     save(post: PostEntity, user): Promise<PostEntity> {

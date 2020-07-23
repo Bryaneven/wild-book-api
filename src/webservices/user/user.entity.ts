@@ -40,5 +40,10 @@ export class User {
   follows: User[];
 
   @ManyToMany(type => User , user => user.follows)
-  followers: User[]
+  followers: User[];
+
+  @ManyToMany(type => PostEntity , post => post.likesList, {cascade: true})
+  @JoinTable({name:'post_likes'})
+  postsLiked: PostEntity[];
+
 }
