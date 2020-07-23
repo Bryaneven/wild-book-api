@@ -55,4 +55,9 @@ export class UserService {
         return this.userRepository.save(user);
     }
 
+    async findPostsLiked(id){
+        const posts = await this.userRepository.findOne(id,{relations:['postsLiked']})
+        return posts.postsLiked
+    }
+
 }

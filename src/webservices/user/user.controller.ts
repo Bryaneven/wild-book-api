@@ -14,11 +14,18 @@ export class UserController {
         
         return this.userService.findById(req.user.id)
     }
+    @Get('/likedposts')
+    getMyLikedPost(@Request() req){
+        return this.userService.findPostsLiked(req.user.id)
+    }
     @Get('/getmyfollows')
     findMyFollows(@Request() req){
         return this.userService.findFollows(req.user.id)
     }
-
+    @Get('/posts/:id/likes')
+    getPostLikes(@Param('id') id ){
+        return this.postService.findPostLikes(id);
+    }
     @Get('/myfeed')
     getMyfeed(@Request() req){
         return this.userService.findMyFeed(req.user)

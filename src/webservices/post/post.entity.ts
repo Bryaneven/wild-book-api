@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, ManyToOne, JoinColumn} from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, ManyToOne, JoinColumn, ManyToMany} from 'typeorm';
 import { User } from '../user/user.entity';
 
 @Entity()
@@ -15,4 +15,6 @@ export class PostEntity {
   @ManyToOne(type => User, user => user.posts, {eager:true})
   @JoinColumn({name:'created_by'})
   createdBy: User;
+  @ManyToMany(type => User , user => user.postsLiked)
+  likesList : User[]
 }
