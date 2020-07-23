@@ -14,5 +14,5 @@ export class PostEntity {
 
   @ManyToOne(type => User, user => user.posts, {eager:true})
   @JoinColumn({name:'created_by'})
-  createBy: User;
+  createdBy: User;
 }

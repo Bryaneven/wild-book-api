@@ -32,10 +32,10 @@ export class User {
   @Column({name:'picture_url',nullable:true})
   pictureUrl: string;
 
-  @OneToMany(type => PostEntity, post => post.createBy)
+  @OneToMany(type => PostEntity, post => post.createdBy)
   posts: PostEntity[];
 
-  @ManyToMany(type => User, user => user.followers)
+  @ManyToMany(type => User, user => user.followers, {cascade: true})
   @JoinTable({name:'user_friends'})
   follows: User[];
 

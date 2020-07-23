@@ -11,14 +11,20 @@ export class PostController {
 
     constructor(private postService: PostService){}
     @Get()
-    getAll(){
+    getAll(){    
         return this.postService.findAll();
+    }
+    @Get('/mines')
+    getMyPost(@Request() req){   
+        return this.postService.findByUserId(req.user.id);
     }
 
     @Get('/:id')
     getById(@Param('id') id: number){
         return this.postService.findById(id);
     }
+
+   
 
     @Post()
     save(@Body() post : PostEntity,@Request() req){   
@@ -33,7 +39,6 @@ export class PostController {
 
     @Delete('/:id')
     delete(@Param('id') id){
-        parseInt(id,10)
         return this.postService.delete(id);
     }
 }
